@@ -41,7 +41,7 @@ export default {
           return;
         }
 
-        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/dashboard`, {
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/api/dashboard`, {
           headers: {
             Authorization: `Bearer ${token}` // Send the JWT token in the header
           }

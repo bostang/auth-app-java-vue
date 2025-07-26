@@ -34,7 +34,7 @@ export default {
   methods: {
     async register() {
       try {
-        const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/auth/register`, {
+        const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/api/auth/register`, {
           username: this.username,
           password: this.password
         });

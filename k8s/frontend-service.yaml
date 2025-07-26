@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: NodePort # Untuk bisa diakses dari browser host
+  # type: ClusterIP # Hanya untuk akses internal, jika ingin akses dari luar bisa diubah ke NodePort
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80 # Port service Kubernetes
+      targetPort: 80 # Port container Nginx
+      nodePort: 30080 # Port yang akan diakses dari host (STATIS, agar memudahkan pengaturan CORS di backend)
+  
+
+  # ketika NodePort -> IP frontend-service akan menjadi IP dari node Kubernetes (Minikube)
+  # dan port akan menjadi NodePort yang dialokasikan oleh Kubernetes.
+  # Anda bisa mendapatkan NodePort dengan perintah:
+  # kubectl get service frontend-service -o jsonpath='{.spec.ports[0].nodePort}'
+  # Ini akan memberikan port yang bisa Anda akses dari browser host.
+  # Misalnya, jika NodePort adalah 30080, Anda bisa mengakses frontend di
+  # http://<minikube-ip>:30080 atau http://localhost:30080
+  # Jika Anda menggunakan Minikube, Anda bisa mendapatkan IP Minikube dengan:
+  # minikube ip
+
+  # ketika ClusterIP -> IP frontend-service akan menjadi IP internal yang hanya bisa diakses oleh service lain di dalam cluster.
+  # Anda tidak akan bisa mengaksesnya langsung dari browser host.
+  # Untuk akses dari luar, Anda perlu menggunakan Ingress atau NodePort.
+  # Jika Anda ingin mengaksesnya dari luar, pastikan untuk menggunakan Ingress atau mengubah type ke NodePort.
+  # Jika Anda menggunakan Ingress, pastikan Ingress Controller sudah terpasang dan dikonfigurasi dengan benar.
+  # Anda bisa mengakses frontend melalui Ingress yang sudah Anda buat di k8s/ingress.yaml.
+  # Ingress akan meneruskan request ke frontend-service berdasarkan aturan yang sudah Anda tentukan.
+  # Misalnya, jika Ingress Anda mengatur path `/` untuk frontend-service, Anda bisa mengaksesnya di http://<minikube-ip>/ atau http://localhost/ jika Anda menggunakan Minikube.
+  # Jika Anda menggunakan Ingress, pastikan untuk mengatur aturan yang benar di k8s/ingress.yaml
+  # untuk meneruskan request ke frontend-service.
+  # Jika Anda menggunakan Minikube, pastikan Ingress Controller sudah terpasang dan
+  # Anda bisa mengakses Ingress melalui IP Minikube.
