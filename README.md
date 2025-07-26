@@ -1,5 +1,9 @@
 # auth-app-java-vue
 
+## Demonstrasi
+
+![video-demonstrasi](./img/demo.gif)
+
 ## Cara Menjalankan (Minikube k8s)
 
 ```bash
