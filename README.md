@@ -29,7 +29,12 @@ gcloud services enable artifactregistry.googleapis.com
 # CATATAN : APABILA PUSH GAGAL, LAKUKAN MELALUI CLOUD SHELL TERMINAL DI GOOGLE CLOUD
 ```
 
+```bash
+terraform init
+terraform plan -out tfplan
+terraform apply -auto-approve tfplan
 ```
+
 
 <!-- ```bash
 # Install gcloud-cli (linux)

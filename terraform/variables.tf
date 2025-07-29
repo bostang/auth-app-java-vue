@@ -1,7 +1,7 @@
 variable "project" {
     description = "The GCP project ID"
     type       = string
-    default    = "model-parsec-465503-p3"
+    default    = "primeval-rune-467212-t9"
 }
 
 variable "region" {
