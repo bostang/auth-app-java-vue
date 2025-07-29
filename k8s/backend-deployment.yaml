@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: asia-southeast1-docker.pkg.dev/[YOUR_PROJECT_ID]/auth-app-repo/auth-backend:latest # Perbarui ini
+        image: asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest
         ports:
         - containerPort: 8081
         envFrom:

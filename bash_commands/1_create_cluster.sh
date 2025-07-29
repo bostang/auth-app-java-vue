@@ -1,6 +1,7 @@
-gcloud container clusters create vue-java-auth-app \
-    --num-nodes=2 \
-    --machine-type=e2-medium \
-    --region=asia-southeast1 \
-    --enable-autoscaling --min-nodes=1 --max-nodes=3 \
-    --release-channel=stable
+# This script creates a GKE cluster using Terraform.
+# Ensure you have the necessary permissions and that your gcloud is configured correctly.
+cd ../terraform
+terraform init
+terraform plan -out tfplan
+terraform apply -auto-approve tfplan
+

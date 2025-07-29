@@ -29,12 +29,41 @@ gcloud services enable artifactregistry.googleapis.com
 # CATATAN : APABILA PUSH GAGAL, LAKUKAN MELALUI CLOUD SHELL TERMINAL DI GOOGLE CLOUD
 ```
 
+## Terraform Script to create cluster
+
 ```bash
 terraform init
 terraform plan -out tfplan
 terraform apply -auto-approve tfplan
 ```
 
+## Deploy Pods to cluster
+
+```bash
+gcloud container clusters get-credentials auth-vue-java-cluster --region asia-southeast1-a --project primeval-rune-467212-t9
+
+gcloud artifacts repositories create auth-app-repo \
+    --repository-format=docker \
+    --location=asia-southeast1 \
+    --description="Docker repository for Auth App" \
+    --project=primeval-rune-467212-t9
+
+gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+
+# Di root proyek Anda (auth-app-java-vue)
+cd backend
+./mvnw clean package -DskipTests
+cd ..
+docker build -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest ./backend
+docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest
+
+docker build -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest ./frontend
+docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest
+
+
+# Pastikan Anda berada di root proyek (auth-app-java-vue)
+kubectl create configmap frontend-nginx-config --from-file=frontend/nginx.conf
+```
 
 <!-- ```bash
 # Install gcloud-cli (linux)

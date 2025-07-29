@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: asia-southeast1-docker.pkg.dev/[YOUR_PROJECT_ID]/auth-app-repo/auth-frontend:latest # Perbarui ini
+        image: asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest
         ports:
         - containerPort: 80
         volumeMounts:
