@@ -1,0 +1,33 @@
+# k8s/frontend-nginx-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-nginx-config
+data:
+  nginx.conf: |
+    server {
+      listen 80;
+      server_name localhost;
+
+      # Path ke aplikasi Vue.js yang sudah di-build (dist folder)
+      root /usr/share/nginx/html;
+      index index.html index.htm;
+
+      # Konfigurasi untuk aplikasi SPA (Single Page Application)
+      # Mengarahkan semua permintaan yang tidak cocok dengan file statis ke index.html
+      location / {
+        try_files $uri $uri/ /index.html;
+      }
+
+      # Jika Anda memiliki API yang di-proxy secara internal dari Nginx frontend (jarang jika ada Ingress)
+      # location /api/ {
+      #   proxy_pass http://backend-service:8081/; # Sesuaikan dengan nama service backend Anda
+      #   proxy_set_header Host $host;
+      #   proxy_set_header X-Real-IP $remote_addr;
+      #   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      #   proxy_set_header X-Forwarded-Proto $scheme;
+      # }
+
+      # Menangani error pages
+      error_page 404 /index.html;
+    }
