@@ -44,4 +44,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: ClusterIP # Biasanya ClusterIP jika ada Ingress di depannya
+  type: LoadBalancer # Gunakan LoadBalancer untuk akses eksternal
