@@ -1,3 +1,9 @@
+variable "project_name" {
+    description = "The name of the GKE cluster"
+    type        = string
+    default = "auth-vue-java-cluster"
+}
+
 variable "project" {
     description = "The GCP project ID"
     type       = string
