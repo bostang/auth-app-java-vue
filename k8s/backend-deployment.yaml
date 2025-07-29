@@ -22,7 +22,7 @@ spec:
         - containerPort: 8081
         envFrom:
         - secretRef:
-            name: backend-secret # Pastikan nama secret cocok
+            name: backend-secrets # Pastikan nama secret cocok
         # ... konfigurasi lainnya
 ---
 apiVersion: v1
