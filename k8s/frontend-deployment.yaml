@@ -1,21 +1,47 @@
+# k8s/frontend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
   labels:
-    app: frontend
+    app: frontend-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-app
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-app
     spec:
       containers:
       - name: frontend
-        image: bostang/auth-app-java-vue-frontend:latest
+        image: asia-southeast1-docker.pkg.dev/[YOUR_PROJECT_ID]/auth-app-repo/auth-frontend:latest # Perbarui ini
         ports:
-        - containerPort: 80 # Nginx port
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/conf.d/default.conf # Path di mana Nginx mencari konfigurasi
+          subPath: default.conf # Nama file dalam ConfigMap
+          readOnly: true
+      volumes:
+      - name: nginx-config-volume
+        configMap:
+          name: frontend-nginx-config # Nama ConfigMap yang akan kita buat
+          items:
+          - key: nginx.conf # Nama file dalam ConfigMap
+            path: default.conf # Nama file yang akan dimount di dalam container
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP # Biasanya ClusterIP jika ada Ingress di depannya

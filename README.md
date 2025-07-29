@@ -1,6 +1,131 @@
 # auth-app-java-vue
 
-## Demonstrasi
+## Google Kubernees Engine (GKE)
+
+```bash
+### Cara push ke GCR
+
+```bash
+# build docker image
+docker build -t asia.gcr.io/primeval-rune-467212-t9/auth-vue-frontend ./frontend
+docker build -t asia.gcr.io/primeval-rune-467212-t9/auth-java-backend ./backend
+
+# login ke gcloud
+# gcloud auth login
+
+# autentikasi docker
+# gcloud auth configure-docker
+
+docker push asia.gcr.io/primeval-rune-467212-t9/auth-vue-frontend:latest
+docker push asia.gcr.io/primeval-rune-467212-t9/auth-java-backend:latest
+
+gcloud auth list
+
+gcloud config get-value project
+
+# aktifkan API artifact registry
+gcloud services enable artifactregistry.googleapis.com
+
+# CATATAN : APABILA PUSH GAGAL, LAKUKAN MELALUI CLOUD SHELL TERMINAL DI GOOGLE CLOUD
+```
+
+```
+
+<!-- ```bash
+# Install gcloud-cli (linux)
+# https://cloud.google.com/sdk/docs/install-sdk
+curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+tar -xf google-cloud-cli-linux-x86_64.tar.gz
+./google-cloud-sdk/install.sh
+./google-cloud-sdk/bin/gcloud init
+# install komponen : kubectl
+gcloud components install kubectl
+
+# login & konfigurasi gcloud
+gcloud auth login
+# gcloud config set project <YOUR_PROJECT_ID>
+gcloud config set project primeval-rune-467212-t9
+
+# atau akses via online terminal : https://shell.cloud.google.com/
+
+# buat cluster baru
+# LAKUKAN DARI GOOGLE CLOUD CONSOLE (GUI)
+gcloud beta container clusters create "vue-java-auth-app" \
+  --project "primeval-rune-467212-t9" \
+  --region "asia-southeast1" \
+  --tier "standard" \
+  --no-enable-basic-auth \
+  --cluster-version "1.33.2-gke.1111000" \
+  --release-channel "regular" \
+  --machine-type "e2-micro" \
+  --image-type "COS_CONTAINERD" \
+  --disk-type "pd-standard" \
+  --disk-size "15" \
+  --metadata disable-legacy-endpoints=true \
+  --num-nodes "2" \
+  --logging=SYSTEM,WORKLOAD \
+  --monitoring=SYSTEM,STORAGE,POD,DEPLOYMENT,STATEFULSET,DAEMONSET,HPA,JOBSET,CADVISOR,KUBELET,DCGM \
+  --enable-ip-alias \
+  --network "projects/primeval-rune-467212-t9/global/networks/default" \
+  --subnetwork "projects/primeval-rune-467212-t9/regions/asia-southeast1/subnetworks/default" \
+  --no-enable-intra-node-visibility \
+  --default-max-pods-per-node "110" \
+  --enable-ip-access \
+  --security-posture=standard \
+  --workload-vulnerability-scanning=disabled \
+  --no-enable-google-cloud-access \
+  --addons HorizontalPodAutoscaling,HttpLoadBalancing,GcePersistentDiskCsiDriver \
+  --enable-autoupgrade \
+  --enable-autorepair \
+  --max-surge-upgrade 1 \
+  --max-unavailable-upgrade 0 \
+  --binauthz-evaluation-mode=DISABLED \
+  --enable-managed-prometheus \
+  --enable-shielded-nodes \
+  --shielded-integrity-monitoring \
+  --no-shielded-secure-boot
+
+# dapatkan kredential cluster u/ k8s
+gcloud container clusters get-credentials vue-java-auth-app --zone=asia-southeast1
+
+# Login ke GCR terlebih dahulu
+gcloud auth configure-docker
+
+# Bangun image
+# syntax:
+# docker build -t gcr.io/<YOUR_PROJECT_ID>/<NAMA_IMAGE>:<TAG>   <DIREKTORI_BUILD>
+
+# Bangun image frontend
+docker build -t asia.gcr.io/primeval-rune-467212-t9/auth-app-java-vue-frontend:latest --build-arg VUE_APP_API_BASE_URL=/api ./frontend
+
+# Push image frontend ke GCR
+docker push asia.gcr.io/primeval-rune-467212-t9/auth-app-java-vue-frontend:latest
+
+# (Jika ada Dockerfile backend di root project, atau sesuaikan path-nya)
+docker build -t asia.gcr.io/primeval-rune-467212-t9/auth-app-java-vue-backend:latest ./backend # Sesuaikan path ke Dockerfile backend Anda
+
+# Push image backend ke GCR
+docker push asia.gcr.io/primeval-rune-467212-t9/auth-app-java-vue-backend:latest
+
+# Terapkan semua file manifest ke cluster GKE Anda
+kubectl apply -f k8s/
+
+# Dapatkan Alamat IP Ingress Eksternal
+kubectl get ingress auth-app-ingress
+
+# memperbarui APP_FRONTEND_URL di secret backend agar CORS berfungsi dengan benar.
+kubectl edit secret backend-secrets
+
+# Restart Deployment Backend agar perubahan pada secret diambil oleh pod backend
+kubectl rollout restart deployment backend-deployment
+```
+ -->
+
+Catatan : untuk bisa docker push ke `gcr.io`, tambahkan di bagian IAM role sebagai **Artifact Registry Writer** .
+
+![artifact-registry-writer-role](./img/artifact-registry-writer-role.png)
+
+<!-- ## Demonstrasi
 
 ![video-demonstrasi](./img/demo.gif)
 
@@ -218,4 +343,4 @@ minikube dashboard
 # masuk ke folder /frontend/
 docker build -t bostang/auth-app-java-vue-frontend:latest .
 docker push bostang/auth-app-java-vue-frontend:latest
-```
+``` -->

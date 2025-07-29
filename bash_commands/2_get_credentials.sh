@@ -1,0 +1,1 @@
+gcloud container clusters get-credentials vue-java-auth-app --region asia-southeast1

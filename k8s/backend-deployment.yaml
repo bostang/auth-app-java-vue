@@ -1,46 +1,39 @@
+# k8s/backend-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
   labels:
-    app: backend
+    app: backend-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: backend-app
   template:
     metadata:
       labels:
-        app: backend
+        app: backend-app
     spec:
       containers:
       - name: backend
-        image: bostang/auth-app-java-vue-backend:latest
+        image: asia-southeast1-docker.pkg.dev/[YOUR_PROJECT_ID]/auth-app-repo/auth-backend:latest # Perbarui ini
         ports:
         - containerPort: 8081
-        env:
-        - name: APP_FRONTEND_URL
-          valueFrom:
-            secretKeyRef:
-              name: backend-secrets
-              key: APP_FRONTEND_URL # Ambil URL frontend dari Secret
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://db-service:5432/auth_db # Gunakan nama Service DB
-        - name: SPRING_DATASOURCE_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secrets
-              key: POSTGRES_USER
-        - name: SPRING_DATASOURCE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secrets
-              key: POSTGRES_PASSWORD
-        - name: SERVER_PORT
-          value: "8081" # Port aplikasi Spring Boot di dalam kontainer
         envFrom:
         - secretRef:
-            name: backend-secrets # Ambil JWT_SECRET, JWT_EXPIRATION, APP_FRONTEND_URL
-        # Tidak perlu 'command: ["sh", "-c", "sleep 15 && java -jar app.jar"]' di K8s.
-        # Healthcheck akan menangani dependensi.
+            name: backend-secret # Pastikan nama secret cocok
+        # ... konfigurasi lainnya
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service # Pastikan nama ini cocok dengan yang di nginx.conf frontend
+spec:
+  selector:
+    app: backend-app
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: ClusterIP

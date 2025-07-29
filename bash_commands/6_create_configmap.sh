@@ -1,0 +1,1 @@
+kubectl create configmap frontend-nginx-config --from-file=frontend/nginx.conf=frontend/nginx.conf
