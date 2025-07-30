@@ -58,11 +58,20 @@ docker build -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-
 docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest
 
 docker build -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest ./frontend
-docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest
 
+# setelah mendapatkan ingress url
+docker build --build-arg VUE_APP_API_BASE_URL="http://34.160.88.130" -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest ./frontend
+
+docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest
 
 # Pastikan Anda berada di root proyek (auth-app-java-vue)
 kubectl create configmap frontend-nginx-config --from-file=frontend/nginx.conf
+
+# setelah melakukan perubahan pada deployment frontend
+kubectl rollout restart deployment frontend-deployment
+
+kubectl rollout restart deployment backend-deployment
+
 ```
 
 <!-- ```bash
