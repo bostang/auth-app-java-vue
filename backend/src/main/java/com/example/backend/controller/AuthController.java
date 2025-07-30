@@ -19,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+// @RequestMapping("/auth")
 @CrossOrigin(origins = "${app.frontend.url}") // Use the frontend URL from application.properties
 public class AuthController {
 

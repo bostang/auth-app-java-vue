@@ -54,13 +54,15 @@ gcloud auth configure-docker asia-southeast1-docker.pkg.dev
 cd backend
 ./mvnw clean package -DskipTests
 cd ..
+
 docker build -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest ./backend
+
 docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest
 
 docker build -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest ./frontend
 
 # setelah mendapatkan ingress url
-docker build --build-arg VUE_APP_API_BASE_URL="http://34.160.88.130" -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest ./frontend
+docker build --build-arg VUE_APP_API_BASE_URL="http://34.111.51.248" -t asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest ./frontend
 
 docker push asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-frontend:latest
 
@@ -72,6 +74,23 @@ kubectl rollout restart deployment frontend-deployment
 
 kubectl rollout restart deployment backend-deployment
 
+```
+
+```bash
+
+kubectl apply -f db-deployment.yaml
+kubectl apply -f db-secret.yaml
+kubectl apply -f db-service.yaml
+kubectl apply -f frontend-deployment.yaml
+kubectl apply -f frontend-nginx-config.yaml
+kubectl apply -f frontend-service.yaml
+kubectl apply -f ingress.yaml
+
+# ubah URL backend
+
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f backend-secrets.yaml
+kubectl apply -f backend-service.yaml
 ```
 
 <!-- ```bash
