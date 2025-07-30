@@ -93,6 +93,16 @@ kubectl apply -f backend-secrets.yaml
 kubectl apply -f backend-service.yaml
 ```
 
+```bash
+# for debugging
+
+kubectl describe ingress auth-app-ingress
+kubectl describe service backend-service
+kubectl describe backendconfig backend-health-check-config
+
+gcloud compute health-checks describe k8s1-994c8c73-default-backend-service-8081-e226a140 --global --project=primeval-rune-467212-t9
+```
+
 <!-- ```bash
 # Install gcloud-cli (linux)
 # https://cloud.google.com/sdk/docs/install-sdk

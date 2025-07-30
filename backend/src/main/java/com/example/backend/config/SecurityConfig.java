@@ -67,6 +67,7 @@ public class SecurityConfig {
             .cors(withDefaults()) // Ensure this line is present and enabled
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Use stateless sessions for JWT
             .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/").permitAll() // Allow public access to health check endpoint
                 .requestMatchers("/api/auth/**").permitAll() // Allow public access to auth endpoints
                 .anyRequest().authenticated() // All other requests require authentication
             );
