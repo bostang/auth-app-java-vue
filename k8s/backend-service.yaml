@@ -1,7 +1,10 @@
+# k8s/backend-service.yaml (diperbarui)
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-service # Pastikan nama ini cocok dengan yang di nginx.conf frontend
+  name: backend-service
+  annotations:
+    cloud.google.com/backend-config: '{"default": "backend-health-check-config"}' # Tambahkan baris ini
 spec:
   selector:
     app: backend-app
