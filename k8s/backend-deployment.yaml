@@ -15,6 +15,10 @@ spec:
       labels:
         app: backend-app
     spec:
+      initContainers: # <<< Tambahkan bagian ini
+      - name: wait-for-db
+        image: busybox:1.36.1
+        command: ['sh', '-c', 'until nc -z db-service 5432; do echo waiting for db-service; sleep 2; done;']
       containers:
       - name: backend
         image: asia-southeast1-docker.pkg.dev/primeval-rune-467212-t9/auth-app-repo/auth-backend:latest
@@ -22,4 +26,4 @@ spec:
         - containerPort: 8081
         envFrom:
         - secretRef:
-            name: backend-secrets # Pastikan nama secret cocok
+            name: backend-secrets
