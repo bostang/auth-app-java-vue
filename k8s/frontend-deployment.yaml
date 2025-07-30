@@ -32,16 +32,3 @@ spec:
           items:
           - key: nginx.conf # Nama file dalam ConfigMap
             path: default.conf # Nama file yang akan dimount di dalam container
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-service
-spec:
-  selector:
-    app: frontend-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer # Gunakan LoadBalancer untuk akses eksternal
